@@ -62,19 +62,25 @@ public class HandPhysicsPosRight_Completed : MonoBehaviour
         // Position
         rb.velocity = (controller.position - transform.position) / Time.fixedDeltaTime;
 
-        // Rotation Using Controller Rotation
-        //transform.rotation = controller.rotation * Quaternion.Euler(0, 0, 90);
-
         // Rotation Using Target Velocity
         // Calculate the difference between the rotations of the controller and the current object
-        Quaternion roationDifference = controller.rotation * Quaternion.Euler(new Vector3(0, 0, -90)) * Quaternion.Inverse(transform.rotation);
+        Quaternion rotationDifference = controller.rotation * Quaternion.Euler(new Vector3(0, 0, -90)) * Quaternion.Inverse(transform.rotation);
 
         // Convert the rotation difference to an angle and axis representation
-        roationDifference.ToAngleAxis(out float angleInDegree, out Vector3 rotationAxis);
+        rotationDifference.ToAngleAxis(out float angleInDegree, out Vector3 rotationAxis);
 
         // Calculate the angular velocity needed to rotate by the rotation difference over a single frame
-        Vector3 rotationDifferenceInDegree = angleInDegree * rotationAxis;
+        Vector3 rotationDifferenceInDegree = Vector3.zero;
 
-        rb.angularVelocity = (rotationDifferenceInDegree * Mathf.Deg2Rad / Time.fixedDeltaTime);
+        if (!float.IsNaN(angleInDegree) && !float.IsInfinity(angleInDegree))
+        {
+            // Calculate the angular velocity needed to rotate by the rotation difference over a single frame
+            rotationDifferenceInDegree = angleInDegree * rotationAxis;
+        }
+
+        if (float.IsFinite(rotationDifferenceInDegree.x) && float.IsFinite(rotationDifferenceInDegree.y) && float.IsFinite(rotationDifferenceInDegree.z))
+        {
+            rb.angularVelocity = (rotationDifferenceInDegree * Mathf.Deg2Rad / Time.fixedDeltaTime);
+        }
     }
 }
