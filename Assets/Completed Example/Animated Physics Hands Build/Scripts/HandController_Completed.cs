@@ -11,7 +11,7 @@ public class HandController_Completed : MonoBehaviour
     // Declaring a variable "controller" of type "ActionBasedController"
     ActionBasedController controller;
 
-    // Declaring a public variable "hand" of type "Hand_Completed."  "Hand_Completed" is a reference to the script Hand_Completed.cs
+    // Declaring a public variable "hand" of type "Hand_Completed"  "Hand_Completed" is a reference to the script Hand.cs
     // and the public variable hand will be used to access variables and methods from that script.
     public Hand_Completed hand;
 
